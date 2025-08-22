@@ -29,10 +29,10 @@ app.post('/api/assess/voice', async (req, res) => {
 
     // Determine the prompt for the AI based on the assessment section
     let evaluationPrompt;
-    if (sectionTitle.includes('Repeat Exactly What You Hear')) {
-        evaluationPrompt = `You are a professional voice assessment tool. The user's task was to repeat the following sentence exactly: "${prompt}". Based on the user's transcription "${userResponse}", provide a score from 1-10 for accuracy and give specific, actionable feedback on how they might improve their pronunciation and clarity. Make the feedback concise and helpful.`;
+    if (sectionTitle.toLowerCase().includes('repeat exactly what you hear')) {
+        evaluationPrompt = `you are a professional voice assessment tool. the user's task was to repeat the following sentence exactly: "${prompt.toLowerCase()}". based on the user's transcription "${userResponse.toLowerCase()}", provide a score from 1-10 for accuracy and give specific, actionable feedback on how they might improve their pronunciation and clarity. make the feedback concise and helpful.`;
     } else {
-        evaluationPrompt = `You are a professional voice assessment tool. The user was asked to complete the following task: "${prompt}". Based on the user's transcription "${userResponse}", provide a score from 1-10 for fluency and pronunciation, and give specific, actionable feedback on how they might improve, as if you have just heard their response. Make the feedback concise and helpful.`;
+        evaluationPrompt = `you are a professional voice assessment tool. the user was asked to complete the following task: "${prompt.toLowerCase()}". based on the user's transcription "${userResponse.toLowerCase()}", provide a score from 1-10 for fluency and pronunciation, and give specific, actionable feedback on how they might improve, as if you have just heard their response. make the feedback concise and helpful.`;
     }
 
     try {
@@ -42,8 +42,8 @@ app.post('/api/assess/voice', async (req, res) => {
         
         return res.json({ feedback });
     } catch (error) {
-        console.error('Gemini API Error:', error);
-        return res.status(500).send('Error processing the request.');
+        console.error('gemini api error:', error);
+        return res.status(500).send('error processing the request.');
     }
 });
 
@@ -55,7 +55,7 @@ app.post('/api/assess/text', async (req, res) => {
     try {
         const model = genAI.getGenerativeModel({ model: 'gemini-1.5-flash' });
 
-        const evaluationPrompt = `You are a professional communication assessment tool. Evaluate the user's response: "${userResponse}" based on the prompt: "${prompt}". Provide a score from 1-10 for correctness and relevance, and give detailed feedback.`;
+        const evaluationPrompt = `you are a professional communication assessment tool. evaluate the user's response: "${userResponse.toLowerCase()}" based on the prompt: "${prompt.toLowerCase()}". provide a score from 1-10 for correctness and relevance, and give detailed feedback.`;
 
         const result = await model.generateContent(evaluationPrompt);
         console.log(result.text);
@@ -63,8 +63,8 @@ app.post('/api/assess/text', async (req, res) => {
 
         res.json({ feedback });
     } catch (error) {
-        console.error('Gemini API Error:', error);
-        res.status(500).send('Error processing the request.');
+        console.error('gemini api error:', error);
+        res.status(500).send('error processing the request.');
     }
 });
 
@@ -72,14 +72,14 @@ app.post('/api/assess/text', async (req, res) => {
 app.get('/api/test-gemini', async (req, res) => {
     try {
         const model = genAI.getGenerativeModel({ model: 'gemini-1.5-flash' });
-        const result = await model.generateContent('Write a very short, positive, and friendly message.');
+        const result = await model.generateContent('write a very short, positive, and friendly message.');
         // FIX: Call the text() function to get the string content
         const text = result.response.text(); 
         console.log(text);
-        res.json({ message: 'Gemini API test successful!', response: text });
+        res.json({ message: 'gemini api test successful!', response: text });
     } catch (error) {
-        console.error('Gemini API Test Error:', error);
-        res.status(500).json({ message: 'Gemini API test failed.', error: error.message });
+        console.error('gemini api test error:', error);
+        res.status(500).json({ message: 'gemini api test failed.', error: error.message });
     }
 });
 
@@ -89,5 +89,5 @@ app.use((req, res) => {
 });
 
 app.listen(port, () => {
-    console.log(`Server listening on http://localhost:${port}`);
+    console.log(`server listening on http://localhost:${port}`);
 });
