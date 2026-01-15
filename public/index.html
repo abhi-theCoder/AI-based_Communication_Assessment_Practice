@@ -1,11 +1,13 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>AI Communication Assessment</title>
     <link rel="stylesheet" href="css/style.css">
 </head>
+
 <body>
 
     <div class="main-container">
@@ -16,33 +18,56 @@
                 <p id="prompt-text">Welcome! Click 'Start' to begin your assessment.</p>
                 <div id="timer" style="display: none;">Time Left: <span id="time-left"></span>s</div>
             </div>
-            
+
+            <div id="voice-settings" class="settings-panel">
+                <h3>Voice Settings</h3>
+                <div class="setting-item">
+                    <label for="voice-select">Choose Voice:</label>
+                    <select id="voice-select"></select>
+                </div>
+                <div class="setting-item">
+                    <label for="voice-speed">Speed: <span id="speed-val">1.0</span>x</label>
+                    <input type="range" id="voice-speed" min="0.5" max="2.0" step="0.1" value="1.0">
+                </div>
+                <!-- <button id="stop-speech-btn" class="btn"
+                    style="background:#e53e3e; color:white; width:100%; margin-top:5px;">Stop Speech</button> -->
+            </div>
+
             <div id="action-container">
                 <button id="start-btn">Start</button>
                 <button id="record-btn" style="display: none;">Start Speaking</button>
                 <button id="stop-btn" style="display: none;">Stop Speaking</button>
+
                 <input type="text" id="text-input" style="display: none;" placeholder="Type your answer here...">
+
+                <div id="options-container" style="display: none;"></div>
+                <div id="jumbled-container" style="display: none;"></div>
+
                 <button id="submit-btn" style="display: none;">Submit</button>
                 <div id="loader"></div>
                 <button id="next-btn" style="display: none;">Next</button>
             </div>
-            
+
             <div id="feedback-container" style="display: none;">
                 <h2>Feedback</h2>
-                <pre id="feedback-text"></pre>
+                <div id="feedback-text"></div>
             </div>
         </div>
-        
+
         <div class="container" id="palette-section" style="display: none;">
             <h2>Question Palette</h2>
-            <div id="palette-container"></div>
+            <div id="palette-scroll-container">
+                <div id="palette-container"></div>
+            </div>
         </div>
     </div>
-    
+
     <div class="container" id="summary-section" style="display: none;">
         <h1>Assessment Summary</h1>
         <div id="summary-content"></div>
     </div>
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
     <script src="js/script.js"></script>
 </body>
+
 </html>
